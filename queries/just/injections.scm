@@ -79,11 +79,20 @@
 ; ================ Recipe language specified ================
 
 ; Set highlighting for recipes that specify a language, using the exact name by default
-(recipe_body ;
-  (shebang ;
+(recipe_body
+  (shebang
     (language) @injection.language)
   (#not-any-of? @injection.language "python3" "nodejs" "node" "uv")
   (#set! injection.include-children)) @injection.content
+
+; Set highlighting for recipes that specify a script attribute
+(recipe
+  (attribute
+    (identifier) @_attr (#eq? @_attr "script")
+    (string)+ @injection.language)
+  (recipe_body
+    (#not-any-of? @injection.language "python3" "nodejs" "node" "uv")
+    (#set! injection.include-children)) @injection.content)
 
 ; Transform some known executables
 

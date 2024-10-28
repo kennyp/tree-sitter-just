@@ -79,11 +79,20 @@
 ; ================ Recipe language specified ================                           ; SKIP-HELIX
                                                                                         ; SKIP-HELIX
 ; Set highlighting for recipes that specify a language, using the exact name by default ; SKIP-HELIX
-(recipe_body ;                                                                          ; SKIP-HELIX
-  (shebang ;                                                                            ; SKIP-HELIX
+(recipe_body                                                                            ; SKIP-HELIX
+  (shebang                                                                              ; SKIP-HELIX
     (language) @injection.language)                                                     ; SKIP-HELIX
   (#not-any-of? @injection.language "python3" "nodejs" "node" "uv")                     ; SKIP-HELIX
   (#set! injection.include-children)) @injection.content                                ; SKIP-HELIX
+                                                                                        ; SKIP-HELIX
+; Set highlighting for recipes that specify a script attribute                          ; SKIP-HELIX
+(recipe                                                                                 ; SKIP-HELIX
+  (attribute                                                                            ; SKIP-HELIX
+    (identifier) @_attr (#eq? @_attr "script")                                          ; SKIP-HELIX
+    (string)+ @injection.language)                                                      ; SKIP-HELIX
+  (recipe_body                                                                          ; SKIP-HELIX
+    (#not-any-of? @injection.language "python3" "nodejs" "node" "uv")                   ; SKIP-HELIX
+    (#set! injection.include-children)) @injection.content)                             ; SKIP-HELIX
                                                                                         ; SKIP-HELIX
 ; Transform some known executables                                                      ; SKIP-HELIX
                                                                                         ; SKIP-HELIX
